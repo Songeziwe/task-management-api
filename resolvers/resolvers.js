@@ -1,4 +1,4 @@
-import { AppDataSource } from './dbConfig.js'
+import { AppDataSource } from '../dbConfig.js'
 
 const taskRepository = AppDataSource.getRepository('Task')
 const userRepository = AppDataSource.getRepository('User')
