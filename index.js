@@ -7,7 +7,7 @@ import { resolvers } from './resolvers.js'
 const server = new ApolloServer({
   // typeDefs - definitions of types of data
   typeDefs,
-  // resolvers - hande incoming requests and return data to the client
+  // resolvers - handle incoming requests and return data to the client
   resolvers
 })
 

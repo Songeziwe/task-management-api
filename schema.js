@@ -7,11 +7,14 @@ export const typeDefs = `#graphql
   type Task {
     id: ID!,
     content: String!,
-    complete: Boolean! 
+    complete: Boolean!,
+    userId: ID!
   }
 
   type Query {
     tasks: [Task]
     users: [User]
+    getTaskById(id: ID!): Task
+    getUserById(id: ID!): User
   }
 `

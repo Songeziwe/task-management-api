@@ -7,6 +7,12 @@ export const resolvers = {
     },
     users() {
       return db.users
+    },
+    getTaskById(_, args) {
+      return db.tasks.find(task => task.id === args.id)
+    },
+    getUserById(_, args) {
+      return db.users.find(user => user.id === args.id)
     }
   }
 }
