@@ -34,6 +34,16 @@ export const resolvers = {
         return task
       })
       return db.tasks.find(task => task.id === args.id)
+    },
+    // create a new user
+    // return the created user
+    createUser(_, args) {
+      const newUser = {
+        ...args.userInfo,
+        id: Math.floor(Math.random() * 10000)
+      }
+      db.users.push(newUser)
+      return newUser
     }
   }
 }
