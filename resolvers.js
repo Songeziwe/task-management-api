@@ -33,14 +33,9 @@ export const resolvers = {
     },
     // update task by id
     // return the updated task
-    updateTaskById(_, args) {
-      db.tasks = db.tasks.map(task => {
-        if(task.id === args.id) {
-          return { ...task, ...args.updates }
-        }
-        return task
-      })
-      return db.tasks.find(task => task.id === args.id)
+    async updateTaskById(_, args) {
+      await taskRepository.update(args.id, { ...args.updates })
+      return await taskRepository.findOneBy({ id: args.id })
     },
     // create a new user
     // return the created user
