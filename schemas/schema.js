@@ -8,7 +8,7 @@ export const typeDefs = `#graphql
     id: ID!
     content: String!
     complete: Boolean!
-    userId: ID!
+    user: User!
   }
 
   type Query {

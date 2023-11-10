@@ -56,5 +56,10 @@ export const resolvers = {
 
       return result
     },
+  },
+  Task: {
+    async user(parent) {
+      return await userRepository.findOneBy({ id: parent.userId })
+    }
   }
 }
