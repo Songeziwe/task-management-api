@@ -1,6 +1,7 @@
 import db from './_db.js'
 
 export const resolvers = {
+  // Getters
   Query: {
     tasks() {
       return db.tasks
@@ -13,6 +14,15 @@ export const resolvers = {
     },
     getUserById(_, args) {
       return db.users.find(user => user.id === args.id)
+    }
+  },
+  // Mutators
+  Mutation: {
+    // delete task by id
+    // return the remaining tasks
+    deleteTaskById(_, args) {
+      db.tasks = db.tasks.filter(task => task.id !== args.id)
+      return db.tasks
     }
   }
 }

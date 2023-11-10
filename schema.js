@@ -17,4 +17,8 @@ export const typeDefs = `#graphql
     getTaskById(id: ID!): Task
     getUserById(id: ID!): User
   }
+
+  type Mutation {
+    deleteTaskById(id: ID!): [Task]
+  }
 `
