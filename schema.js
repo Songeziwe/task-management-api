@@ -19,14 +19,21 @@ export const typeDefs = `#graphql
   }
 
   type Mutation {
-    deleteTaskById(id: ID!): [Task]
+    deleteTaskById(id: ID!): Task
     updateTaskById(id: ID!, updates: TaskUpdates!): Task
     createUser(userInfo: UserInfo!): User
+    createTask(taskInfo: TaskInfo!): Task
   }
 
   input TaskUpdates {
     content: String
     complete: Boolean
+  }
+
+  input TaskInfo {
+    content: String!
+    complete: Boolean!
+    userId: ID!
   }
 
   input UserInfo {

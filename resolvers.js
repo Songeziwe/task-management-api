@@ -10,23 +10,26 @@ export const resolvers = {
     async tasks() {
       return await taskRepository.find()
     },
-    users() {
-      return db.users
+    async users() {
+      return await userRepository.find()
     },
     async getTaskById(_, args) {
       return await taskRepository.findOneBy({ id: args.id })
     },
-    getUserById(_, args) {
-      return db.users.find(user => user.id === args.id)
+    async getUserById(_, args) {
+      return await userRepository.findOneBy({ id: args.id })
     }
   },
   // Mutators
   Mutation: {
     // delete task by id
-    // return the remaining tasks
-    deleteTaskById(_, args) {
-      db.tasks = db.tasks.filter(task => task.id !== args.id)
-      return db.tasks
+    // return the deleted task
+    async deleteTaskById(_, args) {
+      const task = await taskRepository.findOneBy({ id: args.id })
+      if(!task) return null
+
+      await taskRepository.delete(task.id)
+      return task
     },
     // update task by id
     // return the updated task
@@ -45,10 +48,19 @@ export const resolvers = {
       const newUser = {
         ...args.userInfo,
       }
-      // console.log({ newUser })
       const result = await userRepository.save(newUser)
 
       return result
-    }
+    },
+    // create a new user
+    // return the created user
+    async createTask(_, args) {
+      const newTask = {
+        ...args.taskInfo,
+      }
+      const result = await taskRepository.save(newTask)
+
+      return result
+    },
   }
 }
