@@ -1,13 +1,13 @@
 export const typeDefs = `#graphql
   type User {
-    id: ID!,
-    name: String!,
-    surname: String,
+    id: ID!
+    name: String!
+    surname: String
   }
   type Task {
-    id: ID!,
-    content: String!,
-    complete: Boolean!,
+    id: ID!
+    content: String!
+    complete: Boolean!
     userId: ID!
   }
 
@@ -20,5 +20,11 @@ export const typeDefs = `#graphql
 
   type Mutation {
     deleteTaskById(id: ID!): [Task]
+    updateTaskById(id: ID!, updates: TaskUpdates!): Task
+  }
+
+  input TaskUpdates {
+    content: String
+    complete: Boolean
   }
 `

@@ -23,6 +23,17 @@ export const resolvers = {
     deleteTaskById(_, args) {
       db.tasks = db.tasks.filter(task => task.id !== args.id)
       return db.tasks
+    },
+    // update task by id
+    // return the updated task
+    updateTaskById(_, args) {
+      db.tasks = db.tasks.map(task => {
+        if(task.id === args.id) {
+          return { ...task, ...args.updates }
+        }
+        return task
+      })
+      return db.tasks.find(task => task.id === args.id)
     }
   }
 }
