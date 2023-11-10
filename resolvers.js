@@ -1,16 +1,19 @@
 import db from './_db.js'
+import { AppDataSource } from './dbConfig.js'
+
+const taskRepository = AppDataSource.getRepository('Task')
 
 export const resolvers = {
   // Getters
   Query: {
-    tasks() {
-      return db.tasks
+    async tasks() {
+      return await taskRepository.find()
     },
     users() {
       return db.users
     },
-    getTaskById(_, args) {
-      return db.tasks.find(task => task.id === args.id)
+    async getTaskById(_, args) {
+      return await taskRepository.findOneBy({ id: args.id })
     },
     getUserById(_, args) {
       return db.users.find(user => user.id === args.id)
