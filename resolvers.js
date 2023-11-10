@@ -2,6 +2,7 @@ import db from './_db.js'
 import { AppDataSource } from './dbConfig.js'
 
 const taskRepository = AppDataSource.getRepository('Task')
+const userRepository = AppDataSource.getRepository('User')
 
 export const resolvers = {
   // Getters
@@ -40,13 +41,14 @@ export const resolvers = {
     },
     // create a new user
     // return the created user
-    createUser(_, args) {
+    async createUser(_, args) {
       const newUser = {
         ...args.userInfo,
-        id: Math.floor(Math.random() * 10000)
       }
-      db.users.push(newUser)
-      return newUser
+      // console.log({ newUser })
+      const result = await userRepository.save(newUser)
+
+      return result
     }
   }
 }

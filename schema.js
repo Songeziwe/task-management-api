@@ -21,7 +21,7 @@ export const typeDefs = `#graphql
   type Mutation {
     deleteTaskById(id: ID!): [Task]
     updateTaskById(id: ID!, updates: TaskUpdates!): Task
-    createUser(userInfo: UserInfo!): [User]
+    createUser(userInfo: UserInfo!): User
   }
 
   input TaskUpdates {
