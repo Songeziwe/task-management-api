@@ -1,4 +1,3 @@
-import db from './_db.js'
 import { AppDataSource } from './dbConfig.js'
 
 const taskRepository = AppDataSource.getRepository('Task')
