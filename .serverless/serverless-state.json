@@ -177,7 +177,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/apollo-lambda/dev/1699864187222-2023-11-13T08:29:47.222Z/apollo-lambda.zip"
+                "S3Key": "serverless/apollo-lambda/dev/1699866500349-2023-11-13T09:08:20.349Z/apollo-lambda.zip"
               },
               "Handler": "src/server.graphqlHandler",
               "Runtime": "nodejs16.x",
@@ -523,7 +523,7 @@
     "artifact": "/Users/songeziwe/Desktop/taskmanagementapi/.serverless/apollo-lambda.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/apollo-lambda/dev/1699864187222-2023-11-13T08:29:47.222Z",
+    "artifactDirectoryName": "serverless/apollo-lambda/dev/1699866500349-2023-11-13T09:08:20.349Z",
     "artifact": "apollo-lambda.zip"
   }
 }

@@ -15,5 +15,14 @@ export const UserEntity = new EntitySchema({
     surname: {
       type: 'varchar'
     },
+    email: {
+      type: 'varchar'
+    },
+    password: {
+      type: 'varchar'
+    },
+    token: {
+      type: 'varchar'
+    }
   }
 })

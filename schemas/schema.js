@@ -2,7 +2,9 @@ export const typeDefs = `#graphql
   type User {
     id: ID!
     name: String!
-    surname: String
+    surname: String!
+    token: String!
+    email: String!
   }
   type Task {
     id: ID!
@@ -23,6 +25,8 @@ export const typeDefs = `#graphql
     updateTaskById(id: ID!, updates: TaskUpdates!): Task
     createUser(userInfo: UserInfo!): User
     createTask(taskInfo: TaskInfo!): Task
+    signIn(signInInput: SignInInput!): User
+    signUp(signUpInput: SignUpInput!): User
   }
 
   input TaskUpdates {
@@ -39,5 +43,18 @@ export const typeDefs = `#graphql
   input UserInfo {
     name: String!
     surname: String!
+    email: String!
+    password: String!
+  }
+
+  input SignInInput {
+    email: String!
+    password: String!
+  }
+  input SignUpInput {
+    name: String!
+    surname: String!
+    email: String!
+    password: String!
   }
 `

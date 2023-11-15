@@ -22,9 +22,21 @@ const server = new ApolloServer({
   resolvers
 })
 
-export const graphqlHandler = startServerAndCreateLambdaHandler(
-  server,
-  handlers.createAPIGatewayProxyEventV2RequestHandler()
-);
+const { url } = startStandaloneServer(server, {
+  listen: process.env.PORT,
+  context: async (req, res) => {
+    return { name: 'Dummy User', surname: 'Doe' }
+  }
+})
+
+// export const graphqlHandler = startServerAndCreateLambdaHandler(
+//   server,
+//   handlers.createAPIGatewayProxyEventV2RequestHandler(),
+//   {
+//     context: async ({ req, res }) => {
+//       console.log()
+//     }
+//   }
+// );
 
 console.log(`Server ready at port ${process.env.PORT}`)
