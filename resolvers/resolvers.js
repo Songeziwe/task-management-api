@@ -30,10 +30,14 @@ export const resolvers = {
   Mutation: {
     // delete task by id
     // return the deleted task
-    async deleteTaskById(_, args) {
+    async deleteTaskById(_, args, { req }) {
+      const email = await auth(req)
       const task = await taskRepository.findOneBy({ id: args.id })
       if(!task) return null
-
+      
+      const user = await userRepository.findOneBy({ email })
+      if(task.userId !== user.id) return null
+      
       await taskRepository.delete(task.id)
       return task
     },
