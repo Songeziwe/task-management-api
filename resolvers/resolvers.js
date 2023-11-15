@@ -43,9 +43,14 @@ export const resolvers = {
     },
     // update task by id
     // return the updated task
-    async updateTaskById(_, args) {
+    async updateTaskById(_, args, { req }) {
+      const email = await auth(req)
+      const task = await taskRepository.findOneBy({ id: args.id })
+      const user = await userRepository.findOneBy({ email })
+      if(task.userId !== user.userid) return null
+
       await taskRepository.update(args.id, { ...args.updates })
-      return await taskRepository.findOneBy({ id: args.id })
+      return task
     },
     async signIn(_, { signInInput }) {
       // check if user exists
