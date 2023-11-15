@@ -5,6 +5,7 @@ import { startStandaloneServer } from '@apollo/server/standalone'
 import { typeDefs } from '../schemas/schema.js'
 import { resolvers } from '../resolvers/resolvers.js'
 import { connectToDB } from '../dbConfig.js'
+import { auth } from '../middleware/auth.js'
 import { startServerAndCreateLambdaHandler, handlers } from '@as-integrations/aws-lambda'
 
 try {
@@ -21,22 +22,25 @@ const server = new ApolloServer({
   // resolvers - handle incoming requests and return data to the client
   resolvers
 })
-
 const { url } = startStandaloneServer(server, {
-  listen: process.env.PORT,
-  context: async (req, res) => {
-    return { name: 'Dummy User', surname: 'Doe' }
+  listen: { port: process.env.PORT } ,
+  context: async ({req, res}) => {
+    if(req.headers.authorization) {
+      return { req }
+    } 
+    return { user: null }
   }
 })
 
 // export const graphqlHandler = startServerAndCreateLambdaHandler(
 //   server,
 //   handlers.createAPIGatewayProxyEventV2RequestHandler(),
-//   {
-//     context: async ({ req, res }) => {
-//       console.log()
-//     }
-//   }
+  // {
+  //   context: async (context) => {
+  //       const email = await auth(context.event)
+  //       return { email }
+  //   }
+  // } 
 // );
 
 console.log(`Server ready at port ${process.env.PORT}`)

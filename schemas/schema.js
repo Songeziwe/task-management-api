@@ -37,7 +37,6 @@ export const typeDefs = `#graphql
   input TaskInfo {
     content: String!
     complete: Boolean!
-    userId: ID!
   }
 
   input UserInfo {

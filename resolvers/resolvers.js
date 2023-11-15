@@ -1,7 +1,8 @@
 import { AppDataSource } from '../dbConfig.js'
-import { compare, hash } from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { ApolloError } from 'apollo-server-errors'
+import { auth } from '../middleware/auth.js'
 
 const taskRepository = AppDataSource.getRepository('Task')
 const userRepository = AppDataSource.getRepository('User')
@@ -9,8 +10,11 @@ const userRepository = AppDataSource.getRepository('User')
 export const resolvers = {
   // Getters
   Query: {
-    async tasks() {
-      return await taskRepository.find()
+    async tasks(_, args, ctx) {
+      const email = await auth(ctx.req)
+      const user = await userRepository.findOneBy({ email })
+      const userTasks = await taskRepository.find({ userId: user.id })
+      return userTasks
     },
     async users(_, args, ctx) {
       return await userRepository.find()
@@ -39,16 +43,6 @@ export const resolvers = {
       await taskRepository.update(args.id, { ...args.updates })
       return await taskRepository.findOneBy({ id: args.id })
     },
-    // create a new user
-    // return the created user
-    async createUser(_, args) {
-      const newUser = {
-        ...args.userInfo,
-      }
-      const result = await userRepository.save(newUser)
-
-      return result
-    },
     async signIn(_, { signInInput }) {
       // check if user exists
       const user = await userRepository.findOneBy({ email: signInInput.email })
@@ -57,7 +51,7 @@ export const resolvers = {
       if(!user) throw new ApolloError(`User doesn't exists with email ${signInInput.email}`, 'USER_DOES_NOT_EXISTS') 
     
       // compare passwords
-      const correctPassword = await compare(signInInput.password, user.password)
+      const correctPassword = await bcrypt.compare(signInInput.password, user.password)
       if(!correctPassword) throw new ApolloError('Incorrect email/password', 'INCORRECT_EMAIL_PASSWORD')
       
       // create jwt token and attach it to the user created above
@@ -79,7 +73,7 @@ export const resolvers = {
       if(!user) throw new ApolloError(`A user is already registered with the email ${signUpInput.email}`, 'USER_ALREADY_EXISTS') 
     
       // encrypt the password
-      const encryptedPassword = await hash(signUpInput.password, 10)
+      const encryptedPassword = await bcrypt.hash(signUpInput.password, 10)
     
       // build the user data to be saved to database
       const newUser = {
@@ -101,9 +95,12 @@ export const resolvers = {
     },
     // create a new user
     // return the created user
-    async createTask(_, args) {
+    async createTask(_, args, { req }) {
+      const email = await auth(req)
+      const user = await userRepository.findOneBy({ email })
       const newTask = {
         ...args.taskInfo,
+        userId: user.id
       }
       const result = await taskRepository.save(newTask)
 
