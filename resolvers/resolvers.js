@@ -16,11 +16,18 @@ export const resolvers = {
       const userTasks = await taskRepository.find({ userId: user.id })
       return userTasks
     },
-    async users(_, args, ctx) {
+    async users() {
       return await userRepository.find()
     },
-    async getTaskById(_, args) {
-      return await taskRepository.findOneBy({ id: args.id })
+    async getTaskById(_, { id }, { req }) {
+      const email = await auth(req)
+      const task = await taskRepository.findOneBy({ id })
+      if(!task) return null
+
+      const user = await userRepository.findOneBy({ email })
+      if(task.userId !== user.id) return null
+
+      return task
     },
     async getUserById(_, args) {
       return await userRepository.findOneBy({ id: args.id })
@@ -46,11 +53,12 @@ export const resolvers = {
     async updateTaskById(_, args, { req }) {
       const email = await auth(req)
       const task = await taskRepository.findOneBy({ id: args.id })
+      if(!task) return null
+
       const user = await userRepository.findOneBy({ email })
       if(task.userId !== user.userid) return null
 
-      await taskRepository.update(args.id, { ...args.updates })
-      return task
+      return await taskRepository.update(args.id, { ...args.updates })
     },
     async signIn(_, { signInInput }) {
       // check if user exists
