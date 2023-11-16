@@ -22,25 +22,19 @@ const server = new ApolloServer({
   // resolvers - handle incoming requests and return data to the client
   resolvers
 })
-const { url } = startStandaloneServer(server, {
-  listen: { port: process.env.PORT } ,
-  context: async ({req, res}) => {
-    if(req.headers.authorization) {
-      return { req }
-    } 
-    return { user: null }
-  }
-})
 
-// export const graphqlHandler = startServerAndCreateLambdaHandler(
-//   server,
-//   handlers.createAPIGatewayProxyEventV2RequestHandler(),
-  // {
-  //   context: async (context) => {
-  //       const email = await auth(context.event)
-  //       return { email }
-  //   }
-  // } 
-// );
+export const graphqlHandler = startServerAndCreateLambdaHandler(
+  server,
+  handlers.createAPIGatewayProxyEventV2RequestHandler(),
+  {
+    context: async (context) => {
+        console.log(context.event)
+        if(context.event.headers.authorization) {
+          return { req: context.event }
+        } 
+        return { user: null }
+    }
+  } 
+);
 
 console.log(`Server ready at port ${process.env.PORT}`)

@@ -2,7 +2,7 @@
   "version": "2",
   "headers": {
     "content-type": "application/json",
-    "authorization": "Bear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzAwMDQ3NzQxLCJleHAiOjE3MDAwNTQ5NDF9.7X96jPpfGj4C5Y17CaYuLxv2EcYlMTVFXNYXdYvyN6o"
+    "authorization": "Bear eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG5AZ21haWwuY29tIiwiaWF0IjoxNzAwMTEwNjQ2LCJleHAiOjE3MDAxMTc4NDZ9.qLeq-1qJfzqg0Kbzu9tFLTIcMGBlsIWwYfWUuoJBKBE"
   },
   "isBase64Encoded": false,
   "rawQueryString": "",
