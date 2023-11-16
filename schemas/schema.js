@@ -10,6 +10,7 @@ export const typeDefs = `#graphql
     id: ID!
     content: String!
     complete: Boolean!
+    userId: Int!
     user: User!
   }
 
