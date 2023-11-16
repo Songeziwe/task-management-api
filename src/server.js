@@ -5,7 +5,6 @@ import { startStandaloneServer } from '@apollo/server/standalone'
 import { typeDefs } from '../schemas/schema.js'
 import { resolvers } from '../resolvers/resolvers.js'
 import { connectToDB } from '../dbConfig.js'
-import { auth } from '../middleware/auth.js'
 import { startServerAndCreateLambdaHandler, handlers } from '@as-integrations/aws-lambda'
 
 try {
@@ -28,7 +27,6 @@ export const graphqlHandler = startServerAndCreateLambdaHandler(
   handlers.createAPIGatewayProxyEventV2RequestHandler(),
   {
     context: async (context) => {
-        console.log(context.event)
         if(context.event.headers.authorization) {
           return { req: context.event }
         } 
